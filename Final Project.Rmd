@@ -1,0 +1,221 @@
+---
+title: "Final Project"
+author: "Sophie Scherkenbach"
+date: "2025-04-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+rm(list = ls())
+
+library(tidyverse)
+library(infer)
+library(ggplot2)
+library(broom)
+library(ISLR)
+```
+
+```{r}
+
+glimpse(Credit)
+
+```
+
+```{r}
+
+mod.fit <- lm(Income ~ Age, data = Credit)
+
+mod.fit %>%
+  broom::tidy()
+
+```
+
+```{r}
+
+Credit %>%
+  ggplot(aes(x = Age, y = Income)) +
+  geom_jitter() +
+  geom_smooth(method = "lm", color = "red") +
+  labs(x = "Age", y = "Income", title = "Relationship between Age and Income")
+
+```
+
+```{r}
+
+mod.fit <- lm(Income ~ Education, data = Credit)
+
+mod.fit %>%
+  broom::tidy()
+
+```
+
+```{r}
+
+Credit %>%
+  ggplot(aes(x = Education, y = Income)) +
+  geom_jitter() +
+  geom_smooth(method = "lm", color = "red") +
+  labs(x = "Education", y = "Income", title = "Relationship between Years of Education and Income")
+
+```
+
+
+```{r}
+
+mod.fit <- lm(Income ~ factor(Gender), data = Credit)
+
+mod.fit %>%
+  broom::tidy()
+
+```
+
+```{r}
+
+Credit %>% filter(Gender == "Female") %>% summarise(mean_Income_fem = mean(Income, na.rm = TRUE))
+
+Credit %>% filter(Gender == " Male") %>% summarise(mean_Income_male = mean(Income, na.rm = TRUE))
+
+```
+
+```{r}
+
+Credit %>%
+  ggplot(aes(x = Gender, y = Income, color = Gender)) +
+  geom_boxplot() +
+  labs(x = "Gender", y = "Income", title = "Relationship between Gender and Income")
+
+```
+
+
+```{r}
+
+mod.fit <- lm(Income ~ factor(Student), data = Credit)
+
+mod.fit %>%
+  broom::tidy()
+
+```
+
+```{r}
+
+Credit %>% filter(Student == "Yes") %>% summarise(mean_Income_student = mean(Income, na.rm = TRUE))
+
+Credit %>% filter(Student == "No") %>% summarise(mean_Income_nonstud = mean(Income, na.rm = TRUE))
+
+```
+
+```{r}
+
+Credit %>%
+  ggplot(aes(x = Student, y = Income, color = Student)) +
+  geom_boxplot() +
+  labs(x = "Student", y = "Income", title = "Relationship between Student Status and Income")
+
+```
+
+
+```{r}
+
+mod.fit <- lm(Income ~ factor(Married), data = Credit)
+
+mod.fit %>%
+  broom::tidy()
+
+```
+
+```{r}
+
+Credit %>% filter(Married == "Yes") %>% summarise(mean_Income_married = mean(Income, na.rm = TRUE))
+
+Credit %>% filter(Married == "No") %>% summarise(mean_Income_unmarried = mean(Income, na.rm = TRUE))
+
+```
+
+```{r}
+
+Credit %>%
+  ggplot(aes(x = Married, y = Income, color = Married)) +
+  geom_boxplot() +
+  labs(x = "Marital Status", y = "Income", title = "Relationship between Marital Status and Income")
+
+```
+
+
+```{r}
+
+mod.fit <- lm(Income ~ factor(Ethnicity), data = Credit)
+
+mod.fit %>%
+  broom::tidy()
+
+```
+
+```{r}
+
+Credit %>% filter(Ethnicity == "African American") %>% summarise(mean_Income_aa = mean(Income, na.rm = TRUE))
+
+Credit %>% filter(Ethnicity == "Asian") %>% summarise(mean_Income_a = mean(Income, na.rm = TRUE))
+
+Credit %>% filter(Ethnicity == "Caucasian") %>% summarise(mean_Income_c = mean(Income, na.rm = TRUE))
+
+```
+
+```{r}
+
+Credit %>%
+  ggplot(aes(x = Ethnicity, y = Income, color = Ethnicity)) +
+  geom_boxplot() +
+  labs(x = "Ethnicity", y = "Income", title = "Relationship between Ethnicity and Income")
+
+```
+
+
+```{r}
+
+mod.fit <- lm(Income ~ Age + Education + factor(Gender) + factor(Student) + factor(Married) + factor(Ethnicity), data = Credit)
+
+mod.fit %>%
+  broom::tidy()
+
+```
+
+
+```{r}
+
+glance(mod.fit) %>%
+  select(r.squared, adj.r.squared)
+
+```
+
+```{r}
+
+mod.fit <- lm(Rating ~ Income, data = Credit)
+
+mod.fit %>%
+  broom::tidy()
+
+```
+
+```{r}
+
+Credit %>%
+  ggplot(aes(x = Income, y = Rating, color = Age)) +
+  geom_jitter() +
+  geom_smooth(method = "lm", color = "red") +
+  labs(x = "Income", y = "Credit Score", title = "Relationship between Credit Score and Income")
+
+```
+
+
+
+
+
+
+
+
+
